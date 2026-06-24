@@ -1,0 +1,9 @@
+.atl/
+openspec/
+*.zip
+*.crx
+*.pem
+*.log
+.DS_Store
+Thumbs.db
+*:Zone.Identifier

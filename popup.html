@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeWorth</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-container">
+        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <h1 data-i18n="popupTitle">TimeWorth</h1>
+      </div>
+      <p class="subtitle" data-i18n="popupSubtitle">See what purchases cost in working time.</p>
+    </header>
+
+    <main class="app-content">
+      <!-- Toggle switch for salary frequency -->
+      <div class="input-group">
+        <label class="input-label" data-i18n="salaryPeriod">Salary period</label>
+        <div class="segmented-control" role="radiogroup" aria-label="Salary period selector" data-i18n-aria-label="salaryPeriodSelector">
+          <input type="radio" id="salary-annual" name="salaryType" value="annual" checked>
+          <label for="salary-annual" class="segment-label" data-i18n="annual">Annual</label>
+          
+          <input type="radio" id="salary-monthly" name="salaryType" value="monthly">
+          <label for="salary-monthly" class="segment-label" data-i18n="monthly">Monthly</label>
+          
+          <div class="selection-slider"></div>
+        </div>
+      </div>
+
+      <!-- Salary Amount Input -->
+      <div class="input-group">
+        <label for="salary-amount" class="input-label" data-i18n="netSalaryLabel">Net salary amount</label>
+        <div class="input-wrapper">
+          <select id="currency-selector" class="currency-selector" aria-label="Currency selector" data-i18n-aria-label="currencySelector">
+            <option value="$">USD ($)</option>
+            <option value="€">EUR (€)</option>
+            <option value="£">GBP (£)</option>
+            <option value="MX$">MXN ($)</option>
+          </select>
+          <input type="number" id="salary-amount" min="0" placeholder="50,000" step="any" required>
+        </div>
+        <p class="input-help" data-i18n="netSalaryHelp">Enter your net salary (what you actually receive in hand).</p>
+      </div>
+
+      <!-- Weekly Hours Input -->
+      <div class="input-group">
+        <label for="weekly-hours" class="input-label" data-i18n="weeklyHoursLabel">Weekly work hours</label>
+        <div class="input-wrapper">
+          <input type="number" id="weekly-hours" placeholder="40" value="40" required>
+          <span class="input-suffix" data-i18n="weeklyHoursSuffix">hrs</span>
+        </div>
+        <p class="input-help" data-i18n="weeklyHoursHelp">Typical hours worked per week.</p>
+      </div>
+
+      <!-- Live Calculation Display -->
+      <div class="rate-preview-card">
+        <span class="rate-label" data-i18n="hourlyRateLabel">Estimated hourly rate</span>
+        <span id="calculated-rate" class="rate-value">$0.00/hr</span>
+      </div>
+
+      <!-- Action Button -->
+      <button id="save-button" class="btn btn-primary" type="button">
+        <span data-i18n="saveButton">Save settings</span>
+      </button>
+
+      <!-- Feedback Toast -->
+      <div id="status-toast" class="status-toast" role="status" aria-live="polite">
+        <span data-i18n="successToast">Settings saved successfully!</span>
+      </div>
+    </main>
+  </div>
+  <script src="timeworth-calculations.js"></script>
+  <script src="timeworth-i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

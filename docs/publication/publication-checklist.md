@@ -30,10 +30,11 @@ Include only files needed by the extension at runtime:
 Do not include development-only or publication-only files in the upload ZIP:
 
 - [ ] Exclude `docs/`
+- [ ] Exclude `assets/screenshots/` from the extension ZIP; upload screenshots separately in the Chrome Web Store dashboard.
 - [x] Exclude `openspec/`
 - [x] Exclude `.atl/`
 - [ ] Exclude `.git/` and Git metadata
-- [ ] Exclude local notes, screenshots drafts, and unused assets
+- [ ] Exclude local notes, screenshot drafts, and unused assets
 
 ## Manual QA checklist
 

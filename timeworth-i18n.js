@@ -52,8 +52,13 @@
 
   function getBrowserLanguage() {
     if (global.chrome && global.chrome.i18n && typeof global.chrome.i18n.getUILanguage === 'function') {
-      return global.chrome.i18n.getUILanguage();
+      try {
+        return global.chrome.i18n.getUILanguage();
+      } catch (error) {
+        // The extension context can be invalidated after reloads while an old content script is still running.
+      }
     }
+
     return global.navigator && global.navigator.language ? global.navigator.language : 'en';
   }
 

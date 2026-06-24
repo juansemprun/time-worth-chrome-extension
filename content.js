@@ -63,9 +63,26 @@
   let userSettings = null;
   let hourlyWage = 0;
 
+  function getSyncStorage() {
+    if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.sync) {
+      return null;
+    }
+
+    return chrome.storage.sync;
+  }
+
   // Retrieve user settings and calculate hourly wage
   function loadSettings(callback) {
-    chrome.storage.sync.get(calculations.DEFAULT_SETTINGS, (items) => {
+    const syncStorage = getSyncStorage();
+
+    if (!syncStorage) {
+      userSettings = calculations.DEFAULT_SETTINGS;
+      hourlyWage = calculations.calculateHourlyRate(userSettings);
+      if (callback) callback();
+      return;
+    }
+
+    syncStorage.get(calculations.DEFAULT_SETTINGS, (items) => {
       userSettings = items;
       hourlyWage = calculations.calculateHourlyRate(items);
       if (callback) callback();
@@ -204,14 +221,16 @@
     });
 
     // Listen for changes in chrome storage to dynamically update badges without page reload
-    chrome.storage.onChanged.addListener((changes, area) => {
-      if (area === 'sync') {
-        loadSettings(() => {
-          // Remove old badges to force recalculation with new settings
-          document.querySelectorAll('.timeworth-badge').forEach(b => b.remove());
-          runCalculation();
-        });
-      }
-    });
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+      chrome.storage.onChanged.addListener((changes, area) => {
+        if (area === 'sync') {
+          loadSettings(() => {
+            // Remove old badges to force recalculation with new settings
+            document.querySelectorAll('.timeworth-badge').forEach(b => b.remove());
+            runCalculation();
+          });
+        }
+      });
+    }
   });
 })();
